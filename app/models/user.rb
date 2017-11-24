@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include CheckPermission
+
   validates :email, uniqueness: true, on: :create
   validates :username, uniqueness: true, on: :create
   validates :email, presence: true, on: :create
@@ -15,5 +16,14 @@ class User < ApplicationRecord
     roles.find do |r|
       return r._can?(action)
     end
+  end
+
+  def to_hash
+    {
+      entity: {
+        id: id,
+        type: self.class.name
+      }
+    }
   end
 end

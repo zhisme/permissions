@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'active_model_serializers', '~> 0.10.7'
 gem 'mysql2'
 gem 'puma', '~> 3.0'
 gem 'rails', '~> 5.0.6'
