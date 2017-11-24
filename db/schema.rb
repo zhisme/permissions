@@ -17,7 +17,15 @@ ActiveRecord::Schema.define(version: 20171124093200) do
     t.boolean  "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["action", "value"], name: "index_permissions_on_action_and_value", unique: true, using: :btree
     t.index ["action"], name: "index_permissions_on_action", using: :btree
+  end
+
+  create_table "permissions_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "user_id"
+    t.integer "permission_id"
+    t.index ["permission_id"], name: "index_permissions_users_on_permission_id", using: :btree
+    t.index ["user_id"], name: "index_permissions_users_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -25,13 +33,8 @@ ActiveRecord::Schema.define(version: 20171124093200) do
     t.string   "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "users_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "user_id"
-    t.integer "permission_id"
-    t.index ["permission_id"], name: "index_users_permissions_on_permission_id", using: :btree
-    t.index ["user_id"], name: "index_users_permissions_on_user_id", using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
 end

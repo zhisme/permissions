@@ -5,4 +5,8 @@ class User < ApplicationRecord
   validates :username, presence: true, on: :create
 
   has_and_belongs_to_many :permissions
+
+  def can?(action)
+    permissions.find_by(action: action).try(:value)
+  end
 end
