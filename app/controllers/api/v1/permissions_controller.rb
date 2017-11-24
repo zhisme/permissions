@@ -1,0 +1,2 @@
+class PermissionsController < BaseController
+end

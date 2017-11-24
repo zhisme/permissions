@@ -2,14 +2,14 @@ module GrantPermission
   extend ActiveSupport::Concern
 
   included do
-    def self.grant_permission(hash, user)
+    def self.grant_permission(hash, entity)
       if action_persist?(hash)
         permission = find_permission(hash)
       else
         permission = insert_action(hash)
       end
-      return false if already_has_permission?(user, permission)
-      user.permissions << permission
+      return false if already_has_permission?(entity, permission)
+      entity.permissions << permission
       permission
     end
 
@@ -25,8 +25,8 @@ module GrantPermission
       Permission.find_by(hash)
     end
 
-    def self.already_has_permission?(user, permission)
-      user.permissions.include?(permission)
+    def self.already_has_permission?(entity, permission)
+      entity.permissions.include?(permission)
     end
 
     class << self

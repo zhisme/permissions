@@ -14,7 +14,7 @@ RSpec.describe Permission, type: :model do
     end
   end
 
-  context 'grant permission' do
+  context 'grant permission to user' do
     it 'presented with success' do
       user = create :user
       permission = create :permission
@@ -35,6 +35,33 @@ RSpec.describe Permission, type: :model do
       user.permissions << permission
       Permission.grant_permission({ action: permission.action, value: true }, user)
       expect(user.permissions.reload.size).to eq(1)
+    end
+  end
+
+  context 'grant permission to role' do
+    it 'presented with success' do
+      user = create :user
+      role = create :role, user: user
+      permission = create :permission
+      Permission.grant_permission({ action: permission.action, value: true }, role)
+      expect(role.permissions.size).to eq(1)
+    end
+
+    it 'new with success' do
+      user = create :user
+      role = create :role, user: user
+      permission = build :permission
+      Permission.grant_permission({ action: permission.action, value: true }, role)
+      expect(role.permissions.size).to eq(1)
+    end
+
+    it 'nothing added' do
+      user = create :user
+      role = create :role, user: user
+      permission = create :permission
+      role.permissions << permission
+      Permission.grant_permission({ action: permission.action, value: true }, role)
+      expect(role.permissions.reload.size).to eq(1)
     end
   end
 end
