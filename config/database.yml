@@ -1,0 +1,17 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  username: root
+  password:
+
+development:
+  <<: *default
+  database: development_permissions
+
+test:
+  <<: *default
+  database: test_permissions
+
+production:
+  <<: *default
+  database: production_permissions
